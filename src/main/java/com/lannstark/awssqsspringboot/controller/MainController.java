@@ -1,6 +1,6 @@
 package com.lannstark.awssqsspringboot.controller;
 
-import com.lannstark.awssqsspringboot.service.SqsMessageSender;
+import com.lannstark.awssqsspringboot.service.SqsMessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,16 +11,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MainController {
 
-  private final SqsMessageSender messageSender;
+  private final SqsMessageService messageService;
 
   @GetMapping("/ping")
   public String healthCheck() {
     return "pong";
   }
 
+  @GetMapping("/message")
+  public void getMessage() {
+    messageService.getMessage();
+  }
+
   @PostMapping("/message")
-  public void sendMessage(@RequestBody String message) {
-    messageSender.sendMessage(message);
+  public void sendMessage(@RequestBody String name) {
+    messageService.sendMessage(name);
   }
 
 }
